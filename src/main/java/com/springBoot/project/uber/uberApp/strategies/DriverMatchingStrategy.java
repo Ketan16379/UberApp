@@ -9,5 +9,5 @@ import java.util.List;
 
 @Service
 public interface DriverMatchingStrategy {
-    List<Driver> findMatchingDrivers(RideRequest rideRequest);
+    List<Driver> findMatchingDriver(RideRequest rideRequest);
 }

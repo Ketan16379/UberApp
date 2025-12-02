@@ -1,11 +1,11 @@
 package com.springBoot.project.uber.uberApp.exceptions;
 
-public class RuntimeConflitException extends RuntimeException {
+public class RuntimeConflictException extends RuntimeException {
 
-    public RuntimeConflitException() {
+    public RuntimeConflictException() {
     }
 
-    public RuntimeConflitException(String message) {
+    public RuntimeConflictException(String message) {
         super(message);
     }
 }
