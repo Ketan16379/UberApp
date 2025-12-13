@@ -23,10 +23,10 @@ public class WalletTransaction {
     @OneToOne
     private Ride ride;
 
+    private String transactionId;
+
     @ManyToOne
     private Wallet wallet;
-
-    private String transactionId;
 
     @CreationTimestamp
     private LocalDateTime timeStamp;

@@ -1,6 +1,5 @@
 package com.springBoot.project.uber.uberApp.strategies.impl;
 
-import com.springBoot.project.uber.uberApp.dto.RideRequestDto;
 import com.springBoot.project.uber.uberApp.entities.Driver;
 import com.springBoot.project.uber.uberApp.entities.RideRequest;
 import com.springBoot.project.uber.uberApp.repositories.DriverRepository;
@@ -10,14 +9,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class DriverMatchingNearestDriverStrategy implements DriverMatchingStrategy {
 
     private final DriverRepository driverRepository;
 
     @Override
     public List<Driver> findMatchingDriver(RideRequest rideRequest) {
-        return driverRepository.findTenNearestDrivers(rideRequest.getPickUpLocation());
+        return driverRepository.findTenNearestDrivers(rideRequest.getPickupLocation());
     }
 }

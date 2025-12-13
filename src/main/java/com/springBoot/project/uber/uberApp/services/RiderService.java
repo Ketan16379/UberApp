@@ -15,11 +15,13 @@ public interface RiderService {
 
     RideDto cancelRide(Long rideId);
 
-    DriverDto rateRider(Long riderId, Integer rating);
+    DriverDto rateDriver(Long rideId, Integer rating);
 
     RiderDto getMyProfile();
 
     List<RideDto> getAllMyRides();
 
-    Rider createNewRider (User user);
+    Rider createNewRider(User user);
+
+    Rider getCurrentRider();
 }

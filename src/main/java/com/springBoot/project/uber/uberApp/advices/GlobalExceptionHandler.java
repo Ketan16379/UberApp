@@ -23,17 +23,8 @@ public class GlobalExceptionHandler {
         return buildErrorResponseEntity(apiError);
     }
 
-//    @ExceptionHandler(ResourceNotFoundException.class)
-//    public ResponseEntity<ApiResponse<?>> handleRuntimeConflictException(ResourceNotFoundException exception) {
-//        ApiError apiError = ApiError.builder()
-//                .status(HttpStatus.CONFLICT)
-//                .message(exception.getMessage())
-//                .build();
-//        return buildErrorResponseEntity(apiError);
-//    }
-
     @ExceptionHandler(RuntimeConflictException.class)
-    public ResponseEntity<ApiResponse<?>> handleRuntimeConflictException(Exception exception) {
+    public ResponseEntity<ApiResponse<?>> handleRuntimeConflictException(RuntimeConflictException exception) {
         ApiError apiError = ApiError.builder()
                 .status(HttpStatus.CONFLICT)
                 .message(exception.getMessage())

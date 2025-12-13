@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Payment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,3 +27,4 @@ public class Payment {
     @CreationTimestamp
     private LocalDateTime paymentTime;
 }
+

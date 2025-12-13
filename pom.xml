@@ -56,12 +56,11 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-spatial -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-spatial</artifactId>
-			<version>7.0.10.Final</version>
-			<type>pom</type>
-		</dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-spatial</artifactId>
+            <version>6.6.1.Final</version>   <!-- use this -->
+        </dependency>
 
 		<dependency>
 			<groupId>org.modelmapper</groupId>

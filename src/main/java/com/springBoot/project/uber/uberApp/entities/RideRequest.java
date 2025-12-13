@@ -20,7 +20,8 @@ public class RideRequest {
     private Long id;
 
     @Column(columnDefinition = "Geometry(Point, 4326)")
-    private Point pickUpLocation;
+    private Point pickupLocation;
+
     @Column(columnDefinition = "Geometry(Point, 4326)")
     private Point dropOffLocation;
 
@@ -33,8 +34,8 @@ public class RideRequest {
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-    private double fare;
-
     @Enumerated(EnumType.STRING)
     private RideRequestStatus rideRequestStatus;
+
+    private Double fare;
 }

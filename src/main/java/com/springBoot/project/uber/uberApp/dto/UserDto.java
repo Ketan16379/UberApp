@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
 
     private String name;
