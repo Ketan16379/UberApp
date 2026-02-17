@@ -33,7 +33,6 @@ public class RiderServiceImpl implements RiderService {
     private final RideStrategyManager rideStrategyManager;
     private final RideRequestRepository rideRequestRepository;
     private final RiderRepository riderRepository;
-    private final RiderService riderService;
     private final RideService rideService;
     private final DriverService driverService;
 
@@ -65,6 +64,10 @@ public class RiderServiceImpl implements RiderService {
 
         if(!rider.equals(ride.getRider())){
             throw new RuntimeException("Rider dows not own this ride with id: " + rideId);
+        }
+
+        if(!ride.getRideStatus().equals(RideStatus.CONFIRMED)) {
+            throw new RuntimeException("Ride cannot be cancelled, invalid status: "+ride.getRideStatus());
         }
 
         Ride savedRide = rideService.updateRideStatus(ride, RideStatus.CANCELLED);
@@ -109,5 +112,4 @@ public class RiderServiceImpl implements RiderService {
                 "Rider not found with id: "+1
         ));
     }
-
 }
