@@ -13,8 +13,11 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class RideRequest {
+@Table(indexes={
+        @Index(name="idx_ride_request_rider", columnList = "rider_id")
+})
 
+public class RideRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
