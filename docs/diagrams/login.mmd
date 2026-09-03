@@ -1,0 +1,15 @@
+sequenceDiagram
+  actor Client
+  participant AuthController
+  participant AuthService
+  participant AuthenticationManager
+  participant JWTService
+
+  Client->>AuthController: POST /auth/login
+  AuthController->>AuthService: login(email, password)
+  AuthService->>AuthenticationManager: authenticate(credentials)
+  AuthenticationManager-->>AuthService: Authentication(User)
+  AuthService->>JWTService: generateAccessToken(User)
+  AuthService->>JWTService: getRefreshToken(User)
+  AuthService-->>AuthController: accessToken
+  AuthController-->>Client: 200 OK (LoginResponseDTO)

@@ -1,0 +1,29 @@
+sequenceDiagram
+  actor Client
+  participant RiderController
+  participant RiderService
+  participant RideStrategyManager
+  participant FareStrategy
+  participant DistanceService
+  participant OSRM as OSRM API
+  participant RideRequestRepository
+  participant DriverMatchingStrategy
+  participant DriverRepository
+
+  Client->>RiderController: POST /riders/requestRide
+  RiderController->>RiderService: requestRide(RideRequestDto)
+  RiderService->>RideStrategyManager: rideFareCalculationStrategy()
+  RideStrategyManager-->>RiderService: FareStrategy
+  RiderService->>FareStrategy: calculateFare(rideRequest)
+  FareStrategy->>DistanceService: calculateDistance(pickup, dropOff)
+  DistanceService->>OSRM: GET /route/v1/driving/{coords}
+  OSRM-->>DistanceService: distance
+  FareStrategy-->>RiderService: fare
+  RiderService->>RideRequestRepository: save(RideRequest)
+  RiderService->>RideStrategyManager: driverMatchingStrategy(riderRating)
+  RideStrategyManager-->>RiderService: DriverMatchingStrategy
+  RiderService->>DriverMatchingStrategy: findMatchingDriver(rideRequest)
+  DriverMatchingStrategy->>DriverRepository: geo query
+  DriverRepository-->>DriverMatchingStrategy: drivers
+  RiderService-->>RiderController: RideRequestDto
+  RiderController-->>Client: 200 OK

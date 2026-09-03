@@ -1,0 +1,18 @@
+sequenceDiagram
+  actor Client
+  participant AuthController
+  participant AuthService
+  participant UserRepository
+  participant PasswordEncoder
+  participant RiderService
+  participant WalletService
+
+  Client->>AuthController: POST /auth/signup
+  AuthController->>AuthService: signup(SignupDto)
+  AuthService->>UserRepository: findByEmail
+  AuthService->>PasswordEncoder: encode(password)
+  AuthService->>UserRepository: save(User)
+  AuthService->>RiderService: createNewRider(User)
+  AuthService->>WalletService: createNewWallet(User)
+  AuthService-->>AuthController: UserDto
+  AuthController-->>Client: 201 Created

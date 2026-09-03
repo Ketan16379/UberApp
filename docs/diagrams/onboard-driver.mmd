@@ -1,0 +1,14 @@
+sequenceDiagram
+  actor Client
+  participant AuthController
+  participant AuthService
+  participant UserRepository
+  participant DriverService
+
+  Client->>AuthController: POST /auth/onBoardNewDriver
+  AuthController->>AuthService: onboardNewDriver(userId, vehicleId)
+  AuthService->>UserRepository: findById(userId)
+  AuthService->>UserRepository: save(User with DRIVER role)
+  AuthService->>DriverService: createNewDriver(Driver)
+  AuthService-->>AuthController: DriverDto
+  AuthController-->>Client: 201 Created

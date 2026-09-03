@@ -1,0 +1,96 @@
+erDiagram
+  USER {
+    bigint id PK
+    string name
+    string email UK
+    string password
+  }
+  USER_ROLE {
+    bigint user_id FK
+    string roles
+  }
+  RIDER {
+    bigint id PK
+    bigint user_id FK
+    double rating
+  }
+  DRIVER {
+    bigint id PK
+    bigint user_id FK
+    double rating
+    boolean available
+    string vehicle_id
+    geometry current_location
+  }
+  RIDE_REQUEST {
+    bigint id PK
+    geometry pickup_location
+    geometry dropoff_location
+    datetime requested_time
+    bigint rider_id FK
+    string payment_method
+    string ride_request_status
+    double fare
+  }
+  RIDE {
+    bigint id PK
+    geometry pickup_location
+    geometry dropoff_location
+    datetime created_time
+    bigint rider_id FK
+    bigint driver_id FK
+    string payment_method
+    string ride_status
+    string otp
+    double fare
+    datetime started_at
+    datetime ended_at
+  }
+  PAYMENT {
+    bigint id PK
+    bigint ride_id FK
+    string payment_method
+    string payment_status
+    double amount
+    datetime payment_time
+  }
+  RATING {
+    bigint id PK
+    bigint ride_id FK
+    bigint rider_id FK
+    bigint driver_id FK
+    int driver_rating
+    int rider_rating
+  }
+  WALLET {
+    bigint id PK
+    bigint user_id FK
+    double balance
+  }
+  WALLET_TXN {
+    bigint id PK
+    bigint wallet_id FK
+    bigint ride_id FK
+    double amount
+    string transaction_type
+    string transaction_method
+    string transaction_id
+    datetime time_stamp
+  }
+
+  USER ||--o{ USER_ROLE : has
+  USER ||--|| RIDER : "profile"
+  USER ||--|| DRIVER : "profile"
+  USER ||--|| WALLET : owns
+
+  RIDER ||--o{ RIDE_REQUEST : requests
+  RIDER ||--o{ RIDE : takes
+  DRIVER ||--o{ RIDE : drives
+
+  RIDE ||--|| PAYMENT : has
+  RIDE ||--|| RATING : has
+
+  WALLET ||--o{ WALLET_TXN : records
+  RIDE ||--o{ WALLET_TXN : references
+  RIDER ||--o{ RATING : receives
+  DRIVER ||--o{ RATING : receives

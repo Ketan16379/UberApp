@@ -2,9 +2,13 @@ package com.springBoot.project.uber.uberApp.controllers;
 
 import com.springBoot.project.uber.uberApp.dto.*;
 import com.springBoot.project.uber.uberApp.services.AuthService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,15 +23,20 @@ public class AuthController {
         return new ResponseEntity<>(authService.signup(signupDto), HttpStatus.CREATED);
     }
 
-    @PostMapping("/onBoardNewDriver")
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/onBoardNewDriver/{userId}")
     ResponseEntity<DriverDto> onBoardNewDriver(@PathVariable Long userId, @RequestBody OnBoardDriverDTO onBoardDriverDTO){
         return new ResponseEntity<>(authService.onboardNewDriver(userId,
                 onBoardDriverDTO.getVehicleId()), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO){
+    ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         String tokens[] = authService.login(loginRequestDTO.getEmail(), loginRequestDTO.getPassword());
+
+        Cookie cookie = new Cookie("token", tokens[1]);
+        cookie.setHttpOnly(true);
+        httpServletResponse.addCookie(cookie);
 
         return ResponseEntity.ok(new LoginResponseDTO(tokens[0]));
     }

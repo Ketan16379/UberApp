@@ -32,6 +32,7 @@ public class RatingServiceImpl implements RatingService {
 
         if(ratingObj.getDriverRating() != null)
             throw new RuntimeConflictException("Driver has already been rated, cannot rate again.");
+
         ratingObj.setDriverRating(rating);
 
         ratingRepository.save(ratingObj);

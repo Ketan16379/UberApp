@@ -1,0 +1,17 @@
+sequenceDiagram
+  actor Rider
+  actor Driver
+  participant RiderService
+  participant DriverService
+  participant RideService
+  participant DriverRepository
+
+  alt Rider cancels
+    Rider->>RiderService: cancelRide(rideId)
+    RiderService->>RideService: updateRideStatus(CANCELLED)
+    RiderService->>DriverRepository: save(available=true)
+  else Driver cancels
+    Driver->>DriverService: cancelRide(rideId)
+    DriverService->>RideService: updateRideStatus(CANCELLED)
+    DriverService->>DriverRepository: save(available=true)
+  end

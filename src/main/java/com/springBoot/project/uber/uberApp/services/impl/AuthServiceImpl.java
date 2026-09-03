@@ -1,5 +1,6 @@
 package com.springBoot.project.uber.uberApp.services.impl;
 
+import com.springBoot.project.uber.uberApp.Security.JWTService;
 import com.springBoot.project.uber.uberApp.dto.DriverDto;
 import com.springBoot.project.uber.uberApp.dto.SignupDto;
 import com.springBoot.project.uber.uberApp.dto.UserDto;
@@ -15,6 +16,9 @@ import com.springBoot.project.uber.uberApp.services.RiderService;
 import com.springBoot.project.uber.uberApp.services.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,13 +35,21 @@ public class AuthServiceImpl implements AuthService {
     private final WalletService walletService;
     private final DriverService driverService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
     @Override
     public String[] login(String email, String password) {
 
-        String tokens[] = new String[2];
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+        );
 
-        return tokens;
+        User user = (User) authentication.getPrincipal();
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.getRefreshToken(user);
+        return new String[]{accessToken, refreshToken};
+
     }
 
     @Override

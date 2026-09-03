@@ -1,0 +1,16 @@
+sequenceDiagram
+  actor Client
+  participant JwtAuthFilter
+  participant JWTService
+  participant UserService
+  participant SecurityContext
+  participant Controller
+
+  Client->>JwtAuthFilter: Request with Authorization: Bearer <token>
+  JwtAuthFilter->>JWTService: getUserIdFromToken(token)
+  JWTService-->>JwtAuthFilter: userId
+  JwtAuthFilter->>UserService: getUserById(userId)
+  UserService-->>JwtAuthFilter: User
+  JwtAuthFilter->>SecurityContext: setAuthentication(User)
+  JwtAuthFilter->>Controller: continue filter chain
+  Controller-->>Client: Response

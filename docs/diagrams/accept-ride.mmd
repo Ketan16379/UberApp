@@ -1,0 +1,18 @@
+sequenceDiagram
+  actor Driver
+  participant DriverController
+  participant DriverService
+  participant RideRequestService
+  participant DriverRepository
+  participant RideService
+  participant RideRepository
+
+  Driver->>DriverController: POST /drivers/acceptRide/{rideRequestId}
+  DriverController->>DriverService: acceptRide(rideRequestId)
+  DriverService->>RideRequestService: findRideRequestById
+  DriverService->>DriverService: getCurrentDriver()
+  DriverService->>DriverRepository: save(available=false)
+  DriverService->>RideService: createNewRide(rideRequest, driver)
+  RideService->>RideRepository: save(Ride)
+  DriverService-->>DriverController: RideDto
+  DriverController-->>Driver: 200 OK

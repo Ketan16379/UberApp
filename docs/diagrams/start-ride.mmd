@@ -1,0 +1,16 @@
+sequenceDiagram
+  actor Driver
+  participant DriverController
+  participant DriverService
+  participant RideService
+  participant PaymentService
+  participant RatingService
+
+  Driver->>DriverController: POST /drivers/startRide/{rideId}
+  DriverController->>DriverService: startRide(rideId, otp)
+  DriverService->>RideService: getRideById
+  DriverService->>RideService: updateRideStatus(ONGOING)
+  DriverService->>PaymentService: createNewPayment(ride)
+  DriverService->>RatingService: createNewRating(ride)
+  DriverService-->>DriverController: RideDto
+  DriverController-->>Driver: 200 OK

@@ -1,0 +1,13 @@
+sequenceDiagram
+  participant PaymentStrategy
+  participant WalletService
+  participant PaymentRepository
+
+  alt WALLET
+    PaymentStrategy->>WalletService: deductMoneyFromWallet(rider, fare)
+    PaymentStrategy->>WalletService: addMoneyToWallet(driver, fare*(1-commission))
+    PaymentStrategy->>PaymentRepository: save(Payment CONFIRMED)
+  else CASH
+    PaymentStrategy->>WalletService: deductMoneyFromWallet(driver, fare*commission)
+    PaymentStrategy->>PaymentRepository: save(Payment CONFIRMED)
+  end

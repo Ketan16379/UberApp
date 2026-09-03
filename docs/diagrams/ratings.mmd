@@ -1,0 +1,19 @@
+sequenceDiagram
+  actor Rider
+  actor Driver
+  participant RatingService
+  participant RatingRepository
+  participant DriverRepository
+  participant RiderRepository
+
+  alt Rider rates Driver
+    Rider->>RatingService: rateDriver(ride, rating)
+    RatingService->>RatingRepository: findByRide
+    RatingService->>RatingRepository: save(driverRating)
+    RatingService->>DriverRepository: recompute avg + save
+  else Driver rates Rider
+    Driver->>RatingService: rateRider(ride, rating)
+    RatingService->>RatingRepository: findByRide
+    RatingService->>RatingRepository: save(riderRating)
+    RatingService->>RiderRepository: recompute avg + save
+  end

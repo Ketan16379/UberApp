@@ -1,0 +1,21 @@
+sequenceDiagram
+  actor Driver
+  participant DriverController
+  participant DriverService
+  participant RideService
+  participant DriverRepository
+  participant PaymentService
+  participant PaymentStrategyManager
+  participant PaymentStrategy
+
+  Driver->>DriverController: POST /drivers/endRide/{rideId}
+  DriverController->>DriverService: endRide(rideId)
+  DriverService->>RideService: getRideById
+  DriverService->>RideService: updateRideStatus(ENDED)
+  DriverService->>DriverRepository: save(available=true)
+  DriverService->>PaymentService: processPayment(ride)
+  PaymentService->>PaymentStrategyManager: paymentStrategy(method)
+  PaymentStrategyManager-->>PaymentService: PaymentStrategy
+  PaymentService->>PaymentStrategy: processPayment(payment)
+  DriverService-->>DriverController: RideDto
+  DriverController-->>Driver: 200 OK
